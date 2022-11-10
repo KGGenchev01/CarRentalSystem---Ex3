@@ -46,4 +46,15 @@ public class CarResource {
         carService.deleteCar(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/rent/{id}")
+    public ResponseEntity<Void> rentCar(@PathVariable("id") Long id) {
+        carService.rentCar(id);
+        return new ResponseEntity<>( HttpStatus.OK);
+    }
+
+    @GetMapping("/available/{id}")
+    public ResponseEntity<Boolean> getAvailability(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(carService.availability(id), HttpStatus.OK);
+    }
 }

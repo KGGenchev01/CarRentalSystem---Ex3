@@ -1,26 +1,26 @@
 package shop.carshop.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(nullable = false, updatable = false)
     private Long id;
     private String brand;
     private Integer horsePower;
     private String color;
+    private boolean availability = true;
 
     public Car() {}
 
-    public Car(Long id, String brand, Integer horsePower, String color) {
+    public Car(Long id, String brand, Integer horsePower, String color, boolean availability) {
         this.id = id;
         this.brand = brand;
         this.horsePower = horsePower;
         this.color = color;
+        this.availability = availability;
     }
 
     public Long getId() {
@@ -55,6 +55,14 @@ public class Car {
         this.color = color;
     }
 
+    public boolean isAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(boolean availability) {
+        this.availability = availability;
+    }
+
     public void setCarCode(String toString) {
     }
 
@@ -63,7 +71,8 @@ public class Car {
                 "id=" + id +
                 ", brand='" + brand + '\'' +
                 ", horsePower='" + horsePower + '\'' +
-                ", color='" + color + '\'' + '}';
+                ", color='" + color + '\'' +
+                 ", availability='" + availability + '\'' + '}';
     }
 }
 

@@ -8,6 +8,7 @@ import shop.carshop.repo.CarRepo;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -40,4 +41,25 @@ public class CarService {
     public void deleteCar(Long id) {
         carRepo.deleteCarById(id);
     }
+
+    public boolean availability(Long id) {
+        Optional<Car> check = carRepo.findCarById(id);
+        if(check.isEmpty()){
+            throw new carNotFoundException("No such car exists!");
+        }
+       return check.get().isAvailability();
+    }
+
+    public void rentCar(Long id) {
+        Optional<Car> car = carRepo.findCarById(id);
+        if(car.isEmpty()){
+            throw new carNotFoundException("No such car exists!");
+        }
+        if(!car.get().isAvailability()){
+            throw new RuntimeException("Car is not rentable!");
+        }
+        car.get().setAvailability(false);
+        carRepo.save(car.get());
+    }
+
 }
